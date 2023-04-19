@@ -26,8 +26,10 @@ namespace sakurario
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
+            //fbhgbshrvgsbhvjh
+
         }
 
         protected override void Update(GameTime gameTime)
