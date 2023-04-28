@@ -30,9 +30,7 @@ namespace sakurario.States
         public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
         {
             _game = game;
-
             _graphicsDevice = graphicsDevice;
-
             _content = content;
         }
 

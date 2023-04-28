@@ -7,18 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using sakurario.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
+using System.Reflection.Metadata;
 
 namespace sakurario.States
 {
     public class MenuState : State
     {
         private List<Component> _components;
-
+        Texture2D background;
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
             var startButtonTexture = _content.Load<Texture2D>("Controls/start_button");
             var quitButtonTexture = _content.Load<Texture2D>("Controls/quit_button");
+            background = _content.Load<Texture2D>("background");
 
             var startButton = new Button(startButtonTexture)
             {
@@ -41,8 +44,11 @@ namespace sakurario.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
+            spriteBatch.End();
         }
 
         private void StartButton_Click(object sender, EventArgs e)
