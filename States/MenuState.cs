@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using sakurario.Controls;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 using System.Reflection.Metadata;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Button = sakurario.Controls.Button;
+using SharpDX.Direct3D9;
+using Microsoft.Xna.Framework.Input;
 
 namespace sakurario.States
 {
@@ -16,12 +20,22 @@ namespace sakurario.States
     {
         private List<Component> _components;
         Texture2D background;
+        Texture2D mainCharacter;
+        int frameWidth = 540;
+        int frameHeight = 540;
+        Point currentFrame = new Point(0, 0);
+        Point spriteSize = new Point(6, 1);
+        int currentTime = 0;
+        int period = 200;
+        Vector2 position = new Vector2(1200, 400);
+
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
             var startButtonTexture = _content.Load<Texture2D>("Controls/start_button");
             var quitButtonTexture = _content.Load<Texture2D>("Controls/quit_button");
             background = _content.Load<Texture2D>("background");
+            mainCharacter = _content.Load<Texture2D>("mainCharacter");
 
             var startButton = new Button(startButtonTexture)
             {
@@ -48,6 +62,12 @@ namespace sakurario.States
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
+            spriteBatch.Draw(mainCharacter, position,
+                new Rectangle(currentFrame.X * frameWidth,
+                    currentFrame.Y * frameHeight,
+                    frameWidth, frameHeight),
+                Color.White, 0, Vector2.Zero,
+                1, SpriteEffects.None, 0);
             spriteBatch.End();
         }
 
@@ -63,6 +83,18 @@ namespace sakurario.States
 
         public override void Update(GameTime gameTime)
         {
+            currentTime += gameTime.ElapsedGameTime.Milliseconds;
+            if (currentTime > period)
+            {
+                currentTime -= period;
+
+                ++currentFrame.X;
+                if (currentFrame.X >= spriteSize.X)
+                {
+                    currentFrame.X = 0;
+                }
+            }
+
             foreach (var component in _components)
                 component.Update(gameTime);
         }

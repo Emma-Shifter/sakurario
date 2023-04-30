@@ -55,22 +55,14 @@ namespace sakurario.Sprites
 
         public virtual void Move()
         {
-            if (Keyboard.GetState().IsKeyDown(Input.Up)) Velocity.Y = -Speed;
-            else if (Keyboard.GetState().IsKeyDown(Input.Down)) Velocity.Y = Speed;
-            else if (Keyboard.GetState().IsKeyDown(Input.Left)) Velocity.X = -Speed;
+            if (Keyboard.GetState().IsKeyDown(Input.Left)) Velocity.X = -Speed;
             if (Keyboard.GetState().IsKeyDown(Input.Right)) Velocity.X = Speed;
         }
 
         protected virtual void SetAnimations()
         {
-            if (Velocity.X > 0)
-                _animationManager.Play(_animations["WalkRight"]);
-            else if (Velocity.X < 0)
-                _animationManager.Play(_animations["WalkLeft"]);
-            else if (Velocity.Y > 0)
-                _animationManager.Play(_animations["WalkDown"]);
-            else if (Velocity.Y < 0)
-                _animationManager.Play(_animations["WalkUp"]);
+            if (Velocity.X > 0) _animationManager.Play(_animations["WalkRight"]);
+            else if (Velocity.X < 0) _animationManager.Play(_animations["WalkLeft"]);
             else _animationManager.Stop();
         }
 

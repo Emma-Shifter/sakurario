@@ -35,35 +35,26 @@ namespace sakurario.Managers
 
         public void Play(Animation animation)
         {
-            if (_animation == animation)
-                return;
-
+            if (_animation == animation) return;
             _animation = animation;
-
             _animation.CurrentFrame = 0;
-
             _timer = 0;
         }
 
         public void Stop()
         {
             _timer = 0f;
-
             _animation.CurrentFrame = 0;
         }
 
         public void Update(GameTime gameTime)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             if (_timer > _animation.FrameSpeed)
             {
                 _timer = 0f;
-
                 _animation.CurrentFrame++;
-
-                if (_animation.CurrentFrame >= _animation.FrameCount)
-                    _animation.CurrentFrame = 0;
+                if (_animation.CurrentFrame >= _animation.FrameCount) _animation.CurrentFrame = 0;
             }
         }
     }

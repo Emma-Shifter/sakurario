@@ -25,14 +25,12 @@ namespace sakurario.States
             var animations = new Dictionary<string, Animation>(){
                 {"WalkRight", new Animation(_content.Load<Texture2D>("Player/playerstepright"), 4) },
                 {"WalkLeft", new Animation(_content.Load<Texture2D>("Player/playerstepleft"), 4) },
-                //{"JumpRight", new Animation(_content.Load<Texture2D>("Player/playerjumpright"), 4) },
-                //{"JumpLeft", new Animation(_content.Load<Texture2D>("Player/playerjumpleft"), 4) },
             };
             _sprites = new List<Sprite>()
             {
                 new Sprite(animations)
                 {
-                    Position = new Vector2(100, 100),
+                    Position = new Vector2(100, 800),
                     Input = new Input()
                     {
                         Right = Keys.D,
