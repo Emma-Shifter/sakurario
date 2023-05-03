@@ -16,7 +16,6 @@ namespace sakurario
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D background;
-        //private List<Component> _gameComponents;
 
         private State _currentState;
         private State _nextState;
@@ -29,7 +28,6 @@ namespace sakurario
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            //graphics = new GraphicsDeviceManager(this);
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             Content.RootDirectory = "Content";
         }
@@ -65,7 +63,6 @@ namespace sakurario
 
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.White);
             _currentState.Draw(gameTime, spriteBatch);
             base.Draw(gameTime);
         }
