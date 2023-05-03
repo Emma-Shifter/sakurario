@@ -12,6 +12,7 @@ namespace sakurario.Models
         public Keys Right { get; set; }
         public Keys Left { get; set; }
         public Keys Up { get; set; }
-        public Keys Down { get; set; }
+        public Keys ArrowRight { get; set; }
+        public Keys ArrowLeft { get; set; }
     }
 }

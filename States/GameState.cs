@@ -15,9 +15,8 @@ namespace sakurario.States
 {
     public class GameState : State
     {
-        //private List<Component> _components;
         Texture2D background;
-        private List<Sprite> _sprites;
+        private Sprite player;
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)
         {
@@ -25,28 +24,29 @@ namespace sakurario.States
             var animations = new Dictionary<string, Animation>(){
                 {"WalkRight", new Animation(_content.Load<Texture2D>("Player/playerstepright"), 4) },
                 {"WalkLeft", new Animation(_content.Load<Texture2D>("Player/playerstepleft"), 4) },
-            };
-            _sprites = new List<Sprite>()
-            {
-                new Sprite(animations)
-                {
-                    Position = new Vector2(100, 800),
-                    Input = new Input()
-                    {
-                        Right = Keys.D,
-                        Left = Keys.A,
-                    }
-                }
+                {"JumpRight", new Animation(_content.Load<Texture2D>("Player/playerjumpright"), 3) },
+                {"JumpLeft", new Animation(_content.Load<Texture2D>("Player/playerjumpleft"), 3) },
             };
 
+            player = new Sprite(animations)
+            {
+                Position = new Vector2(100, 100),
+                Input = new Input()
+                {
+                    Right = Keys.D,
+                    Left = Keys.A,
+                    Up = Keys.W,
+                    ArrowLeft = Keys.Left,
+                    ArrowRight = Keys.Right,
+                }
+            };
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
-            foreach (var sprite in _sprites)
-                sprite.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -57,10 +57,7 @@ namespace sakurario.States
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var sprite in _sprites)
-            {
-                sprite.Update(gameTime, _sprites);
-            }
+            player.Update(gameTime, player);
         }
     }
 }

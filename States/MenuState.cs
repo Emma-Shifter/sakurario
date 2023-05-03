@@ -27,7 +27,7 @@ namespace sakurario.States
         Point spriteSize = new Point(6, 1);
         int currentTime = 0;
         int period = 200;
-        Vector2 position = new Vector2(1200, 400);
+        Vector2 position = new Vector2(1200, 200);
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content)

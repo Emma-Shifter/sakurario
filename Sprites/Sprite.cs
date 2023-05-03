@@ -30,15 +30,17 @@ namespace sakurario.Sprites
             set
             {
                 _position = value;
-
                 if (_animationManager != null)
                     _animationManager.Position = _position;
             }
         }
-
+        
         public float Speed = 2f;
-
         public Vector2 Velocity;
+        public bool isJump = false;
+        public bool isFall = true;
+        float _TotalSeconds = 0;
+        float seconds = 0.8f;
 
         #endregion
 
@@ -46,23 +48,67 @@ namespace sakurario.Sprites
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (_texture != null)
-                spriteBatch.Draw(_texture, Position, Color.White);
-            else if (_animationManager != null)
-                _animationManager.Draw(spriteBatch);
+            if (_texture != null) spriteBatch.Draw(_texture, Position, Color.White);
+            else if (_animationManager != null) _animationManager.Draw(spriteBatch);
             else throw new Exception("This ain't right..!");
         }
 
-        public virtual void Move()
+        public virtual void Move(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Input.Left)) Velocity.X = -Speed;
-            if (Keyboard.GetState().IsKeyDown(Input.Right)) Velocity.X = Speed;
+            if (Keyboard.GetState().IsKeyDown(Input.Left))
+            {
+                Speed = 2f;
+                Velocity.X = -Speed;
+                isJump = true;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Input.Right))
+            {
+                Speed = 2f;
+                Velocity.X = Speed;
+                isJump = true;
+            }
+
+            if ((Keyboard.GetState().IsKeyDown(Input.Up) && Keyboard.GetState().IsKeyDown(Input.ArrowRight)))
+            {
+                Speed = 6f;
+                if (isJump && seconds > _TotalSeconds)
+                {
+                    _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Velocity.Y = (float)(-Speed*(0.8));
+                    Velocity.X = (float)(Speed/2);
+                }
+                else
+                {
+                    isJump = false;
+                    _TotalSeconds = 0;
+                }
+            }
+            if (Keyboard.GetState().IsKeyDown(Input.Up) && Keyboard.GetState().IsKeyDown(Input.ArrowLeft))
+            {
+                Speed = 6f;
+                if (isJump && seconds > _TotalSeconds)
+                {
+                    _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    Velocity.Y = (float)(-Speed * (0.8));
+                    Velocity.X = (float)(-Speed/2);
+                }
+                else
+                {
+                    isJump = false;
+                    _TotalSeconds = 0;
+                }
+            }        
         }
 
         protected virtual void SetAnimations()
         {
             if (Velocity.X > 0) _animationManager.Play(_animations["WalkRight"]);
             else if (Velocity.X < 0) _animationManager.Play(_animations["WalkLeft"]);
+            else if (Keyboard.GetState().IsKeyDown(Input.Up) && Keyboard.GetState().IsKeyDown(Input.ArrowRight))
+                _animationManager.Play(_animations["JumpRight"]);
+            else if (Keyboard.GetState().IsKeyDown(Input.Up) && Keyboard.GetState().IsKeyDown(Input.ArrowLeft))
+                _animationManager.Play(_animations["JumpLeft"]);
             else _animationManager.Stop();
         }
 
@@ -77,16 +123,17 @@ namespace sakurario.Sprites
             _texture = texture;
         }
 
-        public virtual void Update(GameTime gameTime, List<Sprite> sprites)
+        public virtual void Update(GameTime gameTime, Sprite player)
         {
-            Move();
-
+            Move(gameTime);
             SetAnimations();
-
             _animationManager.Update(gameTime);
-
             Position += Velocity;
             Velocity = Vector2.Zero;
+            if (player.Position.Y < 800)
+            {
+                player.Velocity.Y += 7;
+            }              
         }
 
         #endregion
