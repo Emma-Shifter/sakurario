@@ -39,8 +39,14 @@ namespace sakurario.States
                 _platforms.Add(new Sprite(platformTexture)
                 {
                     Position = new Vector2(i * 240, 900),
+                    Size = new Point(240, 72),
                 });
             }
+
+            //_platforms.Add(new Sprite(platformTexture)
+            //{
+            //    Position = new Vector2(50, 300)
+            //});
 
             player = new Sprite(animations)
             {
@@ -62,6 +68,7 @@ namespace sakurario.States
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
             player.Draw(spriteBatch);
+            //spriteBatch.Draw(platformTexture, new Vector2(50, 300), Color.White);
             foreach (var item in _platforms)
             {
                 item.Draw(spriteBatch);
@@ -79,19 +86,18 @@ namespace sakurario.States
             player.Update(gameTime, player);
             foreach (var item in _platforms)
             {
-                if (Collide(item)) player.Velocity.Y -= 7;
+                if (Collide(item, player)) player.Velocity.Y -= 7;
             }
-            
         }
 
-        protected bool Collide(Sprite platform)
+        protected bool Collide(Sprite firstObj, Sprite secondObj)
         {
-            Rectangle groundRect = new Rectangle((int)platform.Position.X,
-                (int)platform.Position.Y, 240, 72);
-            Rectangle playerRect = new Rectangle((int)player.Position.X,
-                (int)player.Position.Y, player.Size.X, player.Size.Y);
+            Rectangle firstObjRect = new Rectangle((int)firstObj.Position.X,
+                (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
+            Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X,
+                (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
 
-            return groundRect.Intersects(playerRect);
+            return firstObjRect.Intersects(secondObjRect);
         }
     }
 }
