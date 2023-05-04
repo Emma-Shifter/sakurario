@@ -62,6 +62,7 @@ namespace sakurario.States
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
+
             spriteBatch.Draw(mainCharacter, position,
                 new Rectangle(currentFrame.X * frameWidth,
                     currentFrame.Y * frameHeight,
@@ -87,7 +88,6 @@ namespace sakurario.States
             if (currentTime > period)
             {
                 currentTime -= period;
-
                 ++currentFrame.X;
                 if (currentFrame.X >= spriteSize.X)
                 {

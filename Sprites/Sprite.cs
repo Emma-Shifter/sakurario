@@ -19,6 +19,7 @@ namespace sakurario.Sprites
 
         protected AnimationManager _animationManager;
         protected Dictionary<string, Animation> _animations;
+        protected Dictionary<string, Animation> _mushroomAnimations;
         protected Vector2 _position;
         protected Texture2D _texture;
 
@@ -27,6 +28,7 @@ namespace sakurario.Sprites
         #region Properties
         public Input Input;
         public Point Size;
+        public bool isPlayer = false;
         public Vector2 Position
         {
             get { return _position; }
@@ -106,7 +108,8 @@ namespace sakurario.Sprites
 
         protected virtual void SetAnimations()
         {
-            if (Velocity.X > 0) _animationManager.Play(_animations["WalkRight"]);
+            if (_animations.ContainsKey("JumpMushroom")) _animationManager.Play(_animations["JumpMushroom"]);
+            else if (Velocity.X > 0) _animationManager.Play(_animations["WalkRight"]);
             else if (Velocity.X < 0) _animationManager.Play(_animations["WalkLeft"]);
             else if (Keyboard.GetState().IsKeyDown(Input.Up) && Keyboard.GetState().IsKeyDown(Input.ArrowRight))
                 _animationManager.Play(_animations["JumpRight"]);
@@ -118,7 +121,9 @@ namespace sakurario.Sprites
         public Sprite(Dictionary<string, Animation> animations)
         {
             _animations = animations;
+            //_mushroomAnimations = animations;
             _animationManager = new AnimationManager(_animations.First().Value);
+            //_animationManager = new AnimationManager(_mushroomAnimations.First().Value);
         }
 
         public Sprite(Texture2D texture)
@@ -128,7 +133,7 @@ namespace sakurario.Sprites
 
         public virtual void Update(GameTime gameTime, Sprite player)
         {
-            Move(gameTime);
+            if (isPlayer) Move(gameTime);
             SetAnimations();
             _animationManager.Update(gameTime);
             Position += Velocity;
