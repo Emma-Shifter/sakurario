@@ -51,11 +51,6 @@ namespace sakurario.States
                 });
             }
 
-            //_platforms.Add(new Sprite(platformTexture)
-            //{
-            //    Position = new Vector2(50, 300)
-            //});
-
             player = new Sprite(animations)
             {
                 isPlayer = true,
@@ -99,7 +94,7 @@ namespace sakurario.States
             player.Update(gameTime, player);
             foreach(var item in _mushrooms)
             {
-                item.Update(gameTime, item);
+                item.Update(gameTime, player, item);
                 if (Collide(item, player))
                 {
                     _game.ChangeState(new Level2(_game, _graphicsDevice, _content));

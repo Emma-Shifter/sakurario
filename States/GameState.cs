@@ -57,7 +57,7 @@ namespace sakurario.States
 
         public override void Update(GameTime gameTime)
         {
-            player.Update(gameTime, player);
+            player.Update(gameTime, player, player);
         }
     }
     
