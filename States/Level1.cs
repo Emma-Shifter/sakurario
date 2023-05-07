@@ -31,18 +31,8 @@ namespace sakurario.States
                 {"JumpMushroom", new Animation(_content.Load<Texture2D>("mushroomjump"), 7)},
             };
 
-            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(50, 900), Size = new Point(240, 72), });
-            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(300, 900), Size = new Point(240, 72), });
-            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(550, 900), Size = new Point(240, 72), });
-            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(800, 900), Size = new Point(240, 72), });
-            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1050, 900), Size = new Point(240, 72), });
-            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1300, 900), Size = new Point(240, 72), });
-            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1550, 900), Size = new Point(240, 72), });
-
             for (var i = 0; i < 7; i++)
-            {
                 _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(50 + i * 250, 900), Size = new Point(240, 72), });
-            }
 
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(120, 820), Size = new Point(70, 70), });
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(540, 820), Size = new Point(70, 70), });
