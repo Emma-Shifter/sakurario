@@ -88,7 +88,7 @@ namespace sakurario.States
             }
             foreach (var item in _platforms)
                 if (Collide(item, player)) player.Velocity.Y -= 7;
-            if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            if (player.Position.Y > 1050) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content));
         }
 
         protected bool Collide(Sprite firstObj, Sprite secondObj)

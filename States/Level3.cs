@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace sakurario.States
 {
-    internal class Level3
+    public class Level3
     {
     }
 }

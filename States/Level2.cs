@@ -109,7 +109,7 @@ namespace sakurario.States
                 item.Update(gameTime, player, item);
                 if (Collide(item, player))
                 {
-                    _game.ChangeState(new Level1(_game, _graphicsDevice, _content));
+                    _game.ChangeState(new Gameover(_game, _graphicsDevice, _content));
                 }
             }
             if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));

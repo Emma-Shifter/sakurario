@@ -3,16 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using sakurario.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
-using System.Reflection.Metadata;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Button = sakurario.Controls.Button;
-using SharpDX.Direct3D9;
-using Microsoft.Xna.Framework.Input;
 
 namespace sakurario.States
 {
@@ -63,12 +54,8 @@ namespace sakurario.States
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
-            spriteBatch.Draw(mainCharacter, position,
-                new Rectangle(currentFrame.X * frameWidth,
-                    currentFrame.Y * frameHeight,
-                    frameWidth, frameHeight),
-                Color.White, 0, Vector2.Zero,
-                1, SpriteEffects.None, 0);
+            spriteBatch.Draw(mainCharacter, position, new Rectangle(currentFrame.X * frameWidth, currentFrame.Y * frameHeight,
+                    frameWidth, frameHeight), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
             spriteBatch.End();
         }
 
@@ -79,7 +66,6 @@ namespace sakurario.States
 
         public override void PostUpdate(GameTime gameTime)
         {
-            // remove sprites if they're not needed
         }
 
         public override void Update(GameTime gameTime)
