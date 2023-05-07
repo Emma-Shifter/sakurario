@@ -7,6 +7,7 @@ using sakurario.Sprites;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D9;
 using Sprite = sakurario.Sprites.Sprite;
+using System.Collections;
 
 namespace sakurario.States
 {
@@ -14,12 +15,11 @@ namespace sakurario.States
     {
         Texture2D background;
         Texture2D platformTexture;
-        //private Sprite SM;
-        private Sprite SB;
         private Sprite player;
         private List<Sprite> _platforms = new List<Sprite>();
         private List<Sprite> _mushrooms = new List<Sprite>();
         private List<Sprite> _smallSnakes = new List<Sprite>();
+        private List<Sprite> _bigSnakes = new List<Sprite>();
         public Level2(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) 
             : base(game, graphicsDevice, content)
         {
@@ -46,14 +46,17 @@ namespace sakurario.States
 
             for (var i = 0; i < 7; i++)
                 _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(50 + i * 250, 900), Size = new Point(240, 72), });
+
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(120, 835), Size = new Point(70, 70), });
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(540, 835), Size = new Point(70, 70), });
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(800, 835), Size = new Point(70, 70), });
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1000, 835), Size = new Point(70, 70), });
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1450, 835), Size = new Point(70, 70), });
+
             _smallSnakes.Add(new Sprite(SMAnimations) { isSnake = true, Position = new Vector2(0, 835), Size = new Point(90, 177), });
             _smallSnakes.Add(new Sprite(SMAnimations) { isSnake = true, Position = new Vector2(700, 835), Size = new Point(90, 177), });
-            SB = new Sprite(SBAnimations) { isSnake = true, Size = new Point(90, 177), Position = new Vector2(1000, 810), };
+            _bigSnakes.Add(new Sprite(SBAnimations) { isSnake = true, Size = new Point(90, 177), Position = new Vector2(1000, 810), });
+
             player = new Sprite(animations)
             {
                 isPlayer = true,
@@ -80,7 +83,8 @@ namespace sakurario.States
                 item.Draw(spriteBatch);
             foreach (var item in _smallSnakes)
                 item.Draw(spriteBatch);
-            SB.Draw(spriteBatch);
+            foreach (var item in _bigSnakes)
+                item.Draw(spriteBatch);
             player.Draw(spriteBatch);
             spriteBatch.End();
         }
@@ -112,8 +116,15 @@ namespace sakurario.States
                     _game.ChangeState(new Gameover(_game, _graphicsDevice, _content));
                 }
             }
+            foreach (var item in _bigSnakes)
+            {
+                item.Update(gameTime, player, item);
+                if (Collide(item, player))
+                {
+                    _game.ChangeState(new Gameover(_game, _graphicsDevice, _content));
+                }
+            }
             if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
-            SB.Update(gameTime, player, SB);
             player.Update(gameTime, player);
         }
 

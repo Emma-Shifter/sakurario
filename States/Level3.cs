@@ -1,12 +1,120 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using sakurario.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using sakurario.Sprites;
 
 namespace sakurario.States
 {
-    public class Level3
+    public class Level3 : State
     {
+        Texture2D background;
+        Texture2D platformTexture;
+        private Sprite player;
+        private List<Sprite> _platforms = new List<Sprite>();
+        private List<Sprite> _mushrooms = new List<Sprite>();
+        private List<Sprite> _smallSnakes = new List<Sprite>();
+        private List<Sprite> _bigSnakes = new List<Sprite>();
+        public Level3(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
+        {
+            background = _content.Load<Texture2D>("platform_bg");
+            platformTexture = _content.Load<Texture2D>("platform_pink");
+
+            var SMAnimations = new Dictionary<string, Animation>(){
+                {"SMRight", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepright"), 4) },
+                {"SMLeft", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepleft"), 4) },
+            };
+            var SBAnimations = new Dictionary<string, Animation>(){
+                {"SBRight", new Animation(_content.Load<Texture2D>("Snakes/bigsnakestepright"), 4) },
+                {"SBLeft", new Animation(_content.Load<Texture2D>("Snakes/bigsnakestepleft"), 4) },
+            };
+            var animations = new Dictionary<string, Animation>(){
+                {"WalkRight", new Animation(_content.Load<Texture2D>("Player/playerstepright"), 4) },
+                {"WalkLeft", new Animation(_content.Load<Texture2D>("Player/playerstepleft"), 4) },
+                {"JumpRight", new Animation(_content.Load<Texture2D>("Player/playerjumpright"), 3) },
+                {"JumpLeft", new Animation(_content.Load<Texture2D>("Player/playerjumpleft"), 3) },
+            };
+            var mushroomAnimations = new Dictionary<string, Animation>(){
+                {"JumpMushroom", new Animation(_content.Load<Texture2D>("mushroomjump"), 7)},
+            };
+            player = new Sprite(animations)
+            {
+                isPlayer = true,
+                Size = new Point(90, 177),
+                Position = new Vector2(100, 100),
+                Input = new Input()
+                {
+                    Right = Keys.D,
+                    Left = Keys.A,
+                    Up = Keys.W,
+                    ArrowLeft = Keys.Left,
+                    ArrowRight = Keys.Right,
+                }
+            };
+
+
+
+
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
+            foreach (var item in _platforms)
+                item.Draw(spriteBatch);
+            foreach (var item in _mushrooms)
+                item.Draw(spriteBatch);
+            foreach (var item in _smallSnakes)
+                item.Draw(spriteBatch);
+            foreach (var item in _bigSnakes)
+                item.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+            spriteBatch.End();
+        }
+
+        public override void PostUpdate(GameTime gameTime)
+        {
+            
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (_mushrooms.Count == 0) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            foreach (var item in _mushrooms)
+            {
+                item.Update(gameTime, player, item);
+                if (Collide(item, player))
+                {
+                    _mushrooms.Remove(item);
+                    break;
+                }
+            }
+            foreach (var item in _platforms)
+                if (Collide(item, player)) player.Velocity.Y -= 7;
+            foreach (var item in _smallSnakes)
+            {
+                item.Update(gameTime, player, item);
+                if (Collide(item, player)) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content));
+            }
+            foreach (var item in _bigSnakes)
+            {
+                item.Update(gameTime, player, item);
+                if (Collide(item, player)) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content));
+            }
+            if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            player.Update(gameTime, player);
+        }
+
+        protected bool Collide(Sprite firstObj, Sprite secondObj)
+        {
+            Rectangle firstObjRect = new Rectangle((int)firstObj.Position.X,
+                (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
+            Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X,
+                (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
+            return firstObjRect.Intersects(secondObjRect);
+        }
     }
 }
