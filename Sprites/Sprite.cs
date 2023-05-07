@@ -167,7 +167,7 @@ namespace sakurario.Sprites
             _animationManager.Update(gameTime);
             Position += Velocity;
             Velocity = Vector2.Zero;
-            if (player.Position.Y < 800) player.Velocity.Y += 7;
+            if (player.Position.Y < 1050) player.Velocity.Y += 7;
         }
         #endregion
     }

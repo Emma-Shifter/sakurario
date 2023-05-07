@@ -24,19 +24,16 @@ namespace sakurario.States
                 {"SMRight", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepright"), 4) },
                 {"SMLeft", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepleft"), 4) },
             };
-
             var SBAnimations = new Dictionary<string, Animation>(){
                 {"SBRight", new Animation(_content.Load<Texture2D>("Snakes/bigsnakestepright"), 4) },
                 {"SBLeft", new Animation(_content.Load<Texture2D>("Snakes/bigsnakestepleft"), 4) },
             };
-
             var animations = new Dictionary<string, Animation>(){
                 {"WalkRight", new Animation(_content.Load<Texture2D>("Player/playerstepright"), 4) },
                 {"WalkLeft", new Animation(_content.Load<Texture2D>("Player/playerstepleft"), 4) },
                 {"JumpRight", new Animation(_content.Load<Texture2D>("Player/playerjumpright"), 3) },
                 {"JumpLeft", new Animation(_content.Load<Texture2D>("Player/playerjumpleft"), 3) },
             };
-
             var mushroomAnimations = new Dictionary<string, Animation>(){
                 {"JumpMushroom", new Animation(_content.Load<Texture2D>("mushroomjump"), 7)},
             };

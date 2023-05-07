@@ -19,6 +19,7 @@ namespace sakurario.States
           : base(game, graphicsDevice, content)
         {
             background = _content.Load<Texture2D>("platform_bg");
+            platformTexture = _content.Load<Texture2D>("platform_blue");
 
             var animations = new Dictionary<string, Animation>(){
                 {"WalkRight", new Animation(_content.Load<Texture2D>("Player/playerstepright"), 4) },
@@ -26,31 +27,29 @@ namespace sakurario.States
                 {"JumpRight", new Animation(_content.Load<Texture2D>("Player/playerjumpright"), 3) },
                 {"JumpLeft", new Animation(_content.Load<Texture2D>("Player/playerjumpleft"), 3) },
             };
-
             var mushroomAnimations = new Dictionary<string, Animation>(){
                 {"JumpMushroom", new Animation(_content.Load<Texture2D>("mushroomjump"), 7)},
             };
 
-            platformTexture = _content.Load<Texture2D>("platform_blue");
-                        
-            for (var i = 0; i < 8; i++)
+            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(50, 900), Size = new Point(240, 72), });
+            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(300, 900), Size = new Point(240, 72), });
+            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(550, 900), Size = new Point(240, 72), });
+            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(800, 900), Size = new Point(240, 72), });
+            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1050, 900), Size = new Point(240, 72), });
+            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1300, 900), Size = new Point(240, 72), });
+            //_platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1550, 900), Size = new Point(240, 72), });
+
+            for (var i = 0; i < 7; i++)
             {
-                _platforms.Add(new Sprite(platformTexture)
-                {
-                    Position = new Vector2(i * 240, 900),
-                    Size = new Point(240, 72),
-                });
+                _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(50 + i * 250, 900), Size = new Point(240, 72), });
             }
 
-            for (var i = 0; i < 8; i++)
-            {
-                _mushrooms.Add(new Sprite(mushroomAnimations)
-                {
-                    Position = new Vector2(50 + i * 240, 700),
-                    Size = new Point(70, 70),
-                });
-            }
-
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(120, 820), Size = new Point(70, 70), });
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(540, 820), Size = new Point(70, 70), });
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(800, 820), Size = new Point(70, 70), });
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1000, 820), Size = new Point(70, 70), });
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1450, 820), Size = new Point(70, 70), });
+            
             player = new Sprite(animations)
             {
                 isPlayer = true,
@@ -65,7 +64,6 @@ namespace sakurario.States
                     ArrowRight = Keys.Right,
                 }
             };
-
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -73,28 +71,21 @@ namespace sakurario.States
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
             foreach (var item in _platforms)
-            {
                 item.Draw(spriteBatch);
-            }
             foreach (var item in _mushrooms)
-            {
                 item.Draw(spriteBatch);
-            }
             player.Draw(spriteBatch);          
             spriteBatch.End();
         }
 
         public override void PostUpdate(GameTime gameTime)
         {
-
+            
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (_mushrooms.Count == 0)
-            {
-                _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
-            }
+            if (_mushrooms.Count == 0) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
             player.Update(gameTime, player);
             foreach(var item in _mushrooms)
             {
@@ -105,12 +96,9 @@ namespace sakurario.States
                     break;
                 }
             }
-            
             foreach (var item in _platforms)
-            {
                 if (Collide(item, player)) player.Velocity.Y -= 7;
-            }
-            
+            if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
         }
 
         protected bool Collide(Sprite firstObj, Sprite secondObj)
@@ -119,7 +107,6 @@ namespace sakurario.States
                 (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
             Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X,
                 (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
-
             return firstObjRect.Intersects(secondObjRect);
         }
     }
