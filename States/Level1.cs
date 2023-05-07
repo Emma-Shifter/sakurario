@@ -91,13 +91,18 @@ namespace sakurario.States
 
         public override void Update(GameTime gameTime)
         {
+            if (_mushrooms.Count == 0)
+            {
+                _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            }
             player.Update(gameTime, player);
             foreach(var item in _mushrooms)
             {
                 item.Update(gameTime, player, item);
                 if (Collide(item, player))
                 {
-                    _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+                    _mushrooms.Remove(item);
+                    break;
                 }
             }
             
