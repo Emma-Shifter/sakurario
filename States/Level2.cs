@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using sakurario.Models;
 using System.Collections.Generic;
-using sakurario.Sprites;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct3D9;
 using Sprite = sakurario.Sprites.Sprite;
-using System.Collections;
+using System.ComponentModel;
+using sakurario.Controls;
 
 namespace sakurario.States
 {
@@ -15,8 +14,13 @@ namespace sakurario.States
     {
         Texture2D background;
         Texture2D platformTexture;
+        Texture2D healthTexture;
         Texture2D health_form;
-        Texture2D health;
+        Health health;
+        float health_counter = 40f;
+        float health_index = 216;
+        float _TotalSeconds = 0;
+        bool isInjured = false;
         private Sprite player;
         private List<Sprite> _platforms = new List<Sprite>();
         private List<Sprite> _mushrooms = new List<Sprite>();
@@ -28,7 +32,12 @@ namespace sakurario.States
             background = _content.Load<Texture2D>("platform_bg");
             platformTexture = _content.Load<Texture2D>("platform_pink");
             health_form = _content.Load<Texture2D>("health_form");
-            health = _content.Load<Texture2D>("health");
+            healthTexture = _content.Load<Texture2D>("health");
+            health = new Health(healthTexture)
+            {
+                Position = new Vector2(112, 50),
+            };
+          
             var SMAnimations = new Dictionary<string, Animation>(){
                 {"SMRight", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepright"), 4) },
                 {"SMLeft", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepleft"), 4) },
@@ -89,7 +98,7 @@ namespace sakurario.States
             foreach (var item in _bigSnakes)
                 item.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            spriteBatch.Draw(health, new Rectangle(112, 50, 216, 80), Color.White);
+            health.Draw(gameTime, spriteBatch);
             spriteBatch.Draw(health_form, new Rectangle(106, 50, 228, 80), Color.White);
             spriteBatch.End();
         }
@@ -119,7 +128,8 @@ namespace sakurario.States
                     snake.Update(gameTime, snake,  _platforms[0], _platforms[_platforms.Count - 1]);
                     if (Collide(snake, player))
                     {
-                        _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+                        isInjured = true;
+                        _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
                 }
                 foreach (var snake in _bigSnakes)
@@ -131,7 +141,12 @@ namespace sakurario.States
                     }
                 }
             }
-            if (player.Position.Y > 1050) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+            if (isInjured && health_counter > _TotalSeconds)
+            {
+                health_index--;
+                health.Update(gameTime);
+            }
+            if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
             player.Update(gameTime, player);
         }
 
