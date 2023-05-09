@@ -56,9 +56,21 @@ namespace sakurario.States
                 }
             };
 
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(50, 900), Size = new Point(240, 72), });
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(300, 900), Size = new Point(240, 72), });
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(550, 900), Size = new Point(240, 72), });
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1050, 700), Size = new Point(240, 72), });
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1300, 700), Size = new Point(240, 72), });
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1550, 900), Size = new Point(240, 72), });
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(800, 900), Size = new Point(240, 72), });
 
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(120, 835), Size = new Point(70, 70), });
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(420, 835), Size = new Point(70, 70), });
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1200, 635), Size = new Point(70, 70), });
+            _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1600, 835), Size = new Point(70, 70), });
 
-
+            _smallSnakes.Add(new Sprite(SMAnimations) { isSnake = true, Position = new Vector2(70, 835), Size = new Point(90, 177), });
+            _bigSnakes.Add(new Sprite(SBAnimations) { isSnake = true, Position = new Vector2(400, 810), Size = new Point(90, 177), });
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -84,7 +96,7 @@ namespace sakurario.States
 
         public override void Update(GameTime gameTime)
         {
-            if (_mushrooms.Count == 0) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            if (_mushrooms.Count == 0) _game.ChangeState(new Level3(_game, _graphicsDevice, _content));
             foreach (var item in _mushrooms)
             {
                 item.Update(gameTime, player, item);
@@ -95,18 +107,26 @@ namespace sakurario.States
                 }
             }
             foreach (var item in _platforms)
+            {
                 if (Collide(item, player)) player.Velocity.Y -= 7;
-            foreach (var item in _smallSnakes)
-            {
-                item.Update(gameTime, player, item);
-                if (Collide(item, player)) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 3));
+                foreach (var snake in _smallSnakes)
+                {
+                    snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
+                    if (Collide(snake, player))
+                    {
+                        _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 3));
+                    }
+                }
+                foreach (var snake in _bigSnakes)
+                {
+                    snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
+                    if (Collide(snake, player))
+                    {
+                        _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 3));
+                    }
+                }
             }
-            foreach (var item in _bigSnakes)
-            {
-                item.Update(gameTime, player, item);
-                if (Collide(item, player)) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 3));
-            }
-            if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            if (player.Position.Y > 1050) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 3));
             player.Update(gameTime, player);
         }
 

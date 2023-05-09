@@ -96,7 +96,7 @@ namespace sakurario.States
 
         public override void Update(GameTime gameTime)
         {
-            if (_mushrooms.Count == 0) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            if (_mushrooms.Count == 0) _game.ChangeState(new Level3(_game, _graphicsDevice, _content));
             foreach (var item in _mushrooms)
             {
                 item.Update(gameTime, player, item);
@@ -126,7 +126,7 @@ namespace sakurario.States
                     }
                 }
             }
-            if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
+            if (player.Position.Y > 1050) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
             player.Update(gameTime, player);
         }
 
