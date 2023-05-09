@@ -12,6 +12,8 @@ namespace sakurario.States
     {
         Texture2D background;
         Texture2D platformTexture;
+        Texture2D health_form;
+        Texture2D health;
         private Sprite player;
         private List<Sprite> _platforms = new List<Sprite>();
         private List<Sprite> _mushrooms = new List<Sprite>();
@@ -21,6 +23,8 @@ namespace sakurario.States
             background = _content.Load<Texture2D>("platform_bg");
             platformTexture = _content.Load<Texture2D>("platform_blue");
 
+            health_form = _content.Load<Texture2D>("health_form");
+            health = _content.Load<Texture2D>("health");
             var animations = new Dictionary<string, Animation>(){
                 {"WalkRight", new Animation(_content.Load<Texture2D>("Player/playerstepright"), 4) },
                 {"WalkLeft", new Animation(_content.Load<Texture2D>("Player/playerstepleft"), 4) },
@@ -64,7 +68,9 @@ namespace sakurario.States
                 item.Draw(spriteBatch);
             foreach (var item in _mushrooms)
                 item.Draw(spriteBatch);
-            player.Draw(spriteBatch);          
+            player.Draw(spriteBatch);
+            spriteBatch.Draw(health, new Rectangle(112, 50, 216, 80), Color.White);
+            spriteBatch.Draw(health_form, new Rectangle(106, 50, 228, 80), Color.White);
             spriteBatch.End();
         }
 

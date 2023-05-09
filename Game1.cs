@@ -15,8 +15,6 @@ namespace sakurario
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D background;
-
         private State _currentState;
         private State _nextState;
 
@@ -44,7 +42,6 @@ namespace sakurario
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            background = Content.Load<Texture2D>("background");
             _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
         }
 
