@@ -107,21 +107,23 @@ namespace sakurario.States
                 }
             }
             foreach (var item in _platforms)
+            {
                 if (Collide(item, player)) player.Velocity.Y -= 7;
-            foreach (var item in _smallSnakes)
-            {
-                item.Update(gameTime, player, item);
-                if (Collide(item, player))
+                foreach (var snake in _smallSnakes)
                 {
-                    _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+                    snake.Update(gameTime, snake,  _platforms[0], _platforms[_platforms.Count - 1]);
+                    if (Collide(snake, player))
+                    {
+                        _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+                    }
                 }
-            }
-            foreach (var item in _bigSnakes)
-            {
-                item.Update(gameTime, player, item);
-                if (Collide(item, player))
+                foreach (var snake in _bigSnakes)
                 {
-                    _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+                    snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
+                    if (Collide(snake, player))
+                    {
+                        _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+                    }
                 }
             }
             if (player.Position.Y > 1050) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));

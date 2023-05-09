@@ -37,8 +37,8 @@ namespace sakurario.Sprites
                     _animationManager.Position = _position;
             }
         }
-        public float SnakeSpeed = 3f;
         public float Speed = 2f;
+        public float SnakeSpeed = 0.8f;
         public Vector2 Velocity;
         public bool isJump = false;
         public bool isFall = true;
@@ -56,20 +56,18 @@ namespace sakurario.Sprites
             else throw new Exception("This ain't right..!");
         }
 
-        public virtual void Crawl(GameTime gameTime, Sprite obj)
+        public virtual void Crawl(GameTime gameTime, Sprite obj, Sprite startPlatform, Sprite endPlatform)
         {
-            if (ToRight == true && obj.Position.X < 1920)
+            if (ToRight == true && obj.Position.X < endPlatform.Position.X)
             {
                 ToRight = true;
-                SnakeSpeed = 3f;
                 Velocity.X = SnakeSpeed;
             }
             else
             {
                 ToRight = false;
-                SnakeSpeed = 3f;
                 Velocity.X = -SnakeSpeed;
-                if (obj.Position.X < 0) ToRight = true;
+                if (obj.Position.X < startPlatform.Position.X) ToRight = true;
             }
         }
 
@@ -148,9 +146,15 @@ namespace sakurario.Sprites
             _texture = texture;
         }
 
-        public virtual void Update(GameTime gameTime, Sprite player, Sprite obj)
+        public virtual void Update(GameTime gameTime, Sprite obj, Sprite item)
         {
-            if (isSnake) Crawl(gameTime, obj);
+            SetAnimations();
+            _animationManager.Update(gameTime);
+        }
+
+        public virtual void Update(GameTime gameTime, Sprite obj, Sprite startPlatform, Sprite endPlatform)
+        {
+            if (isSnake) Crawl(gameTime, obj, startPlatform, endPlatform);
             SetAnimations();
             _animationManager.Update(gameTime);
             obj.Position += Velocity;
