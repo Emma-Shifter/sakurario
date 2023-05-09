@@ -4,13 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using sakurario.Controls;
 using sakurario.Models;
-using sakurario.Sprites;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
+using Sprite = sakurario.Sprites.Sprite;
 
 namespace sakurario.States
 {
@@ -60,9 +55,10 @@ namespace sakurario.States
             };
             player = new Sprite(animations)
             {
+                
                 isPlayer = true,
                 Size = new Point(90, 177),
-                Position = new Vector2(100, 100),
+                Position = new Vector2(900, 100),
                 Input = new Input()
                 {
                     Right = Keys.D,
@@ -78,6 +74,7 @@ namespace sakurario.States
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(600, 700), Size = new Point(240, 72), });
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(850, 700), Size = new Point(240, 72), });
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1100, 900), Size = new Point(240, 72), });
+            _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1100, 500), Size = new Point(240, 72), });
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(1350, 900), Size = new Point(240, 72), });
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(110, 500), Size = new Point(240, 72), });
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(360, 500), Size = new Point(240, 72), });
@@ -130,7 +127,10 @@ namespace sakurario.States
             }
             foreach (var item in _platforms)
             {
-                if (Collide(item, player)) player.Velocity.Y -= 7;
+                //if (Collide(item, player))
+                //{
+                //   player.Velocity.Y -= 7;
+                //}
                 foreach (var snake in _smallSnakes)
                 {
                     snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
@@ -155,14 +155,12 @@ namespace sakurario.States
                 health.Update(gameTime);
             }
             if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 4));
-            player.Update(gameTime, player);
+            player.Update(gameTime, player, _platforms);
         }
         protected bool Collide(Sprite firstObj, Sprite secondObj)
         {
-            Rectangle firstObjRect = new Rectangle((int)firstObj.Position.X,
-                (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
-            Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X,
-                (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
+            Rectangle firstObjRect = new Rectangle((int)firstObj.Position.X, (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
+            Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X, (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
             return firstObjRect.Intersects(secondObjRect);
         }
     }

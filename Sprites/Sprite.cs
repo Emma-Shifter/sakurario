@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using sakurario.Managers;
 using sakurario.Models;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using Point = Microsoft.Xna.Framework.Point;
 
 namespace sakurario.Sprites
@@ -45,6 +47,15 @@ namespace sakurario.Sprites
         float _TotalSeconds = 0;
         float seconds = 0.8f;
         bool ToRight = false;
+        int width;
+        int height;
+        public Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, width, height);
+            }
+        }
         #endregion
 
         #region Methods
@@ -109,7 +120,7 @@ namespace sakurario.Sprites
                 {
                     _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     Velocity.Y = (float)(-Speed * (0.8));
-                    Velocity.X = (float)(-Speed/2);
+                    Velocity.X = -Speed/2;
                 }
                 else
                 {
@@ -134,9 +145,38 @@ namespace sakurario.Sprites
                 _animationManager.Play(_animations["JumpLeft"]);
             else _animationManager.Stop();
         }
-
+        protected bool IsTouchingLeft(Sprite sprite)
+        {
+            return this.Rectangle.Right + this.Velocity.X > sprite.Rectangle.Left &&
+              this.Rectangle.Left < sprite.Rectangle.Left &&
+              this.Rectangle.Bottom > sprite.Rectangle.Top &&
+              this.Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+        protected bool IsTouchingRight(Sprite sprite)
+        {
+            return this.Rectangle.Left + this.Velocity.X < sprite.Rectangle.Right &&
+              this.Rectangle.Right > sprite.Rectangle.Right &&
+              this.Rectangle.Bottom > sprite.Rectangle.Top &&
+              this.Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+        protected bool IsTouchingTop(Sprite sprite)
+        {
+            return this.Rectangle.Bottom + this.Velocity.Y > sprite.Rectangle.Top &&
+              this.Rectangle.Top < sprite.Rectangle.Top &&
+              this.Rectangle.Right > sprite.Rectangle.Left &&
+              this.Rectangle.Left < sprite.Rectangle.Right;
+        }
+        protected bool IsTouchingBottom(Sprite sprite)
+        {
+            return this.Rectangle.Top + this.Velocity.Y < sprite.Rectangle.Bottom &&
+              this.Rectangle.Bottom > sprite.Rectangle.Bottom &&
+              this.Rectangle.Right > sprite.Rectangle.Left &&
+              this.Rectangle.Left < sprite.Rectangle.Right;
+        }
         public Sprite(Dictionary<string, Animation> animations)
         {
+            width = 90;
+            height = 177;
             _animations = animations;
             _animationManager = new AnimationManager(_animations.First().Value);
         }
@@ -144,6 +184,8 @@ namespace sakurario.Sprites
         public Sprite(Texture2D texture)
         {
             _texture = texture;
+            width = texture.Width;
+            height = texture.Height;
         }
 
         public virtual void Update(GameTime gameTime, Sprite obj, Sprite item)
@@ -161,9 +203,22 @@ namespace sakurario.Sprites
             obj.Velocity = Vector2.Zero;       
         }
 
-        public virtual void Update(GameTime gameTime, Sprite player)
+        public virtual void Update(GameTime gameTime, Sprite player, List<Sprite> sprites)
         {
             Move(gameTime);
+            foreach (var sprite in sprites)
+            {
+                if (sprite == this)
+                    continue;
+
+                if ((this.Velocity.X > 0 && this.IsTouchingLeft(sprite)) ||
+                (this.Velocity.X < 0 & this.IsTouchingRight(sprite)))
+                    this.Velocity.X = 0;
+
+                if (this.Velocity.Y > 0 && this.IsTouchingTop(sprite)) this.Velocity.Y = -7;
+                if (this.Velocity.Y < 0 & this.IsTouchingBottom(sprite)) this.Velocity.Y = 7;
+                    
+            }
             SetAnimations();
             _animationManager.Update(gameTime);
             Position += Velocity;

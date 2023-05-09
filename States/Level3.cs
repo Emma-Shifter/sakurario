@@ -149,7 +149,7 @@ namespace sakurario.States
                 health.Update(gameTime);
             }
             if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 3));
-            player.Update(gameTime, player);
+            player.Update(gameTime, player, _platforms);
         }
 
         protected bool Collide(Sprite firstObj, Sprite secondObj)
