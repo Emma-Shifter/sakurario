@@ -21,7 +21,7 @@ namespace sakurario.States
         Vector2 position = new Vector2(1200, 200);
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-          : base(game, graphicsDevice, content)
+          : base(game, graphicsDevice, content, 0)
         {
             var startButtonTexture = _content.Load<Texture2D>("Controls/start_button");
             var quitButtonTexture = _content.Load<Texture2D>("Controls/quit_button");
@@ -53,7 +53,6 @@ namespace sakurario.States
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
-
             spriteBatch.Draw(mainCharacter, position, new Rectangle(currentFrame.X * frameWidth, currentFrame.Y * frameHeight,
                     frameWidth, frameHeight), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
             spriteBatch.End();

@@ -16,7 +16,7 @@ namespace sakurario.States
         private List<Sprite> _platforms = new List<Sprite>();
         private List<Sprite> _mushrooms = new List<Sprite>();
         public Level1(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
-          : base(game, graphicsDevice, content)
+          : base(game, graphicsDevice, content, 1)
         {
             background = _content.Load<Texture2D>("platform_bg");
             platformTexture = _content.Load<Texture2D>("platform_blue");
@@ -88,7 +88,7 @@ namespace sakurario.States
             }
             foreach (var item in _platforms)
                 if (Collide(item, player)) player.Velocity.Y -= 7;
-            if (player.Position.Y > 1050) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content));
+            if (player.Position.Y > 1050) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 1));
         }
 
         protected bool Collide(Sprite firstObj, Sprite secondObj)
