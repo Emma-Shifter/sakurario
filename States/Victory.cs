@@ -12,7 +12,7 @@ namespace sakurario.States
         private List<Component> _components;
         Texture2D background;
         public Victory(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) 
-            : base(game, graphicsDevice, content, -2)
+            : base(game, graphicsDevice, content, 0)
         {
             background = _content.Load<Texture2D>("victory");
             var quitButtonTexture = _content.Load<Texture2D>("Controls/quit_button");

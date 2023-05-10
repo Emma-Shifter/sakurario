@@ -14,17 +14,18 @@ namespace sakurario.States
         Texture2D mainCharacter;
         int frameWidth = 540;
         int frameHeight = 540;
-        Point currentFrame = new Point(0, 0);
-        Point spriteSize = new Point(6, 1);
+        Point currentFrame = new(0, 0);
+        Point spriteSize = new(6, 1);
         int currentTime = 0;
         int period = 200;
-        Vector2 position = new Vector2(1200, 200);
+        Vector2 position = new(1200, 200);
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
           : base(game, graphicsDevice, content, 0)
         {
             var startButtonTexture = _content.Load<Texture2D>("Controls/start_button");
             var quitButtonTexture = _content.Load<Texture2D>("Controls/quit_button");
+            var rulesButtonTexture = _content.Load<Texture2D>("Controls/rules_button");
             background = _content.Load<Texture2D>("background");
             mainCharacter = _content.Load<Texture2D>("mainCharacter");
 
@@ -40,10 +41,17 @@ namespace sakurario.States
             };
             quitButton.Click += QuitButton_Click;
 
+            var rulesButton = new Button(rulesButtonTexture)
+            {
+                Position = new Vector2(390, 760),
+            };
+            rulesButton.Click += RulesButton_Click;
+
             _components = new List<Component>()
             {
                 startButton,
                 quitButton,
+                rulesButton,
             };
         }
 
@@ -56,6 +64,11 @@ namespace sakurario.States
             spriteBatch.Draw(mainCharacter, position, new Rectangle(currentFrame.X * frameWidth, currentFrame.Y * frameHeight,
                     frameWidth, frameHeight), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
             spriteBatch.End();
+        }
+
+        private void RulesButton_Click(object sender, EventArgs e)
+        {
+            _game.ChangeState(new Gamerules(_game, _graphicsDevice, _content));
         }
 
         private void StartButton_Click(object sender, EventArgs e)
