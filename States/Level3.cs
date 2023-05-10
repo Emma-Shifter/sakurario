@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using sakurario.Models;
-using System;
-using System.Collections.Generic;
-using sakurario.Sprites;
 using Microsoft.Xna.Framework.Input;
 using sakurario.Controls;
+using sakurario.Models;
+using sakurario.Sprites;
+using System.Collections.Generic;
 
 namespace sakurario.States
 {
@@ -26,7 +25,7 @@ namespace sakurario.States
         private List<Sprite> _mushrooms = new List<Sprite>();
         private List<Sprite> _smallSnakes = new List<Sprite>();
         private List<Sprite> _bigSnakes = new List<Sprite>();
-        public Level3(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) 
+        public Level3(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content, 3)
         {
             background = _content.Load<Texture2D>("platform_bg");
@@ -105,11 +104,6 @@ namespace sakurario.States
             spriteBatch.End();
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
-            
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (_mushrooms.Count == 0) _game.ChangeState(new Level3(_game, _graphicsDevice, _content));
@@ -150,15 +144,6 @@ namespace sakurario.States
             }
             if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 3));
             player.Update(gameTime, player, _platforms);
-        }
-
-        protected bool Collide(Sprite firstObj, Sprite secondObj)
-        {
-            Rectangle firstObjRect = new Rectangle((int)firstObj.Position.X,
-                (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
-            Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X,
-                (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
-            return firstObjRect.Intersects(secondObjRect);
         }
     }
 }

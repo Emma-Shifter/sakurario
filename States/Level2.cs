@@ -1,12 +1,11 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using sakurario.Controls;
 using sakurario.Models;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Input;
 using Sprite = sakurario.Sprites.Sprite;
-using System.ComponentModel;
-using sakurario.Controls;
 
 namespace sakurario.States
 {
@@ -26,7 +25,7 @@ namespace sakurario.States
         private List<Sprite> _mushrooms = new List<Sprite>();
         private List<Sprite> _smallSnakes = new List<Sprite>();
         private List<Sprite> _bigSnakes = new List<Sprite>();
-        public Level2(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) 
+        public Level2(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content, 2)
         {
             background = _content.Load<Texture2D>("platform_bg");
@@ -37,7 +36,7 @@ namespace sakurario.States
             {
                 Position = new Vector2(112, 50),
             };
-          
+
             var SMAnimations = new Dictionary<string, Animation>(){
                 {"SMRight", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepright"), 4) },
                 {"SMLeft", new Animation(_content.Load<Texture2D>("Snakes/smallsnakestepleft"), 4) },
@@ -89,25 +88,15 @@ namespace sakurario.States
         {
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1050), Color.White);
-            foreach (var item in _platforms)
-                item.Draw(spriteBatch);
-            foreach (var item in _mushrooms)
-                item.Draw(spriteBatch);
-            foreach (var item in _smallSnakes)
-                item.Draw(spriteBatch);
-            foreach (var item in _bigSnakes)
-                item.Draw(spriteBatch);
+            foreach (var list in new List<Sprite>[] { _platforms, _mushrooms, _smallSnakes, _bigSnakes })
+            {
+                foreach (var item in list) item.Draw(spriteBatch);
+            }
             player.Draw(spriteBatch);
             health.Draw(gameTime, spriteBatch);
             spriteBatch.Draw(health_form, new Rectangle(106, 50, 228, 80), Color.White);
             spriteBatch.End();
         }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
-            
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (_mushrooms.Count == 0) _game.ChangeState(new Level3(_game, _graphicsDevice, _content));
@@ -125,7 +114,7 @@ namespace sakurario.States
                 if (Collide(item, player)) player.Velocity.Y -= 7;
                 foreach (var snake in _smallSnakes)
                 {
-                    snake.Update(gameTime, snake,  _platforms[0], _platforms[_platforms.Count - 1]);
+                    snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
                     if (Collide(snake, player))
                     {
                         isInjured = true;
@@ -148,15 +137,6 @@ namespace sakurario.States
             }
             if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
             player.Update(gameTime, player, _platforms);
-        }
-
-        protected bool Collide(Sprite firstObj, Sprite secondObj)
-        {
-            Rectangle firstObjRect = new Rectangle((int)firstObj.Position.X,
-                (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
-            Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X,
-                (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
-            return firstObjRect.Intersects(secondObjRect);
         }
 
     }

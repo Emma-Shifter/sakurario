@@ -1,19 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SharpDX.DirectWrite;
-using System.Collections.Generic;
-using sakurario.Controls;
-using SharpDX.Direct2D1;
-using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 using sakurario.States;
-using System.Drawing;
+using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace sakurario
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private State _currentState;
         private State _nextState;
@@ -25,8 +19,10 @@ namespace sakurario
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics = new GraphicsDeviceManager(this)
+            {
+                GraphicsProfile = GraphicsProfile.HiDef
+            };
             Content.RootDirectory = "Content";
         }
 
@@ -54,7 +50,6 @@ namespace sakurario
             }
 
             _currentState.Update(gameTime);
-            _currentState.PostUpdate(gameTime);
             base.Update(gameTime);
         }
 

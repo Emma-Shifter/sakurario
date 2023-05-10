@@ -1,11 +1,7 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using sakurario.Sprites;
 
 namespace sakurario.States
 {
@@ -24,8 +20,6 @@ namespace sakurario.States
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
-        public abstract void PostUpdate(GameTime gameTime);
-
         public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level)
         {
             _game = game;
@@ -35,7 +29,14 @@ namespace sakurario.States
         }
 
         public abstract void Update(GameTime gameTime);
-
+        protected static bool Collide(Sprite firstObj, Sprite secondObj)
+        {
+            Rectangle firstObjRect = new((int)firstObj.Position.X,
+                (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
+            Rectangle secondObjRect = new((int)secondObj.Position.X,
+                (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
+            return firstObjRect.Intersects(secondObjRect);
+        }
         #endregion
     }
 }

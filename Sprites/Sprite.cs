@@ -3,11 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using sakurario.Managers;
 using sakurario.Models;
-using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using Point = Microsoft.Xna.Framework.Point;
 
 namespace sakurario.Sprites
@@ -45,10 +43,10 @@ namespace sakurario.Sprites
         public bool isJump = false;
         public bool isFall = true;
         float _TotalSeconds = 0;
-        float seconds = 0.8f;
+        readonly float seconds = 0.8f;
         bool ToRight = false;
-        int width;
-        int height;
+        readonly int width;
+        readonly int height;
         public Rectangle Rectangle
         {
             get
@@ -104,8 +102,8 @@ namespace sakurario.Sprites
                 if (isJump && seconds > _TotalSeconds)
                 {
                     _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Velocity.Y = (float)(-Speed*(0.8));
-                    Velocity.X = (float)(Speed/2);
+                    Velocity.Y = (float)(-Speed * (0.8));
+                    Velocity.X = (float)(Speed / 2);
                 }
                 else
                 {
@@ -120,14 +118,14 @@ namespace sakurario.Sprites
                 {
                     _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
                     Velocity.Y = (float)(-Speed * (0.8));
-                    Velocity.X = -Speed/2;
+                    Velocity.X = -Speed / 2;
                 }
                 else
                 {
                     isJump = false;
                     _TotalSeconds = 0;
                 }
-            }        
+            }
         }
 
         protected virtual void SetAnimations()
@@ -200,7 +198,7 @@ namespace sakurario.Sprites
             SetAnimations();
             _animationManager.Update(gameTime);
             obj.Position += Velocity;
-            obj.Velocity = Vector2.Zero;       
+            obj.Velocity = Vector2.Zero;
         }
 
         public virtual void Update(GameTime gameTime, Sprite player, List<Sprite> sprites)
@@ -208,16 +206,11 @@ namespace sakurario.Sprites
             Move(gameTime);
             foreach (var sprite in sprites)
             {
-                if (sprite == this)
-                    continue;
-
-                if ((this.Velocity.X > 0 && this.IsTouchingLeft(sprite)) ||
-                (this.Velocity.X < 0 & this.IsTouchingRight(sprite)))
-                    this.Velocity.X = 0;
-
+                if (sprite == this) continue;
+                if ((this.Velocity.X > 0 && this.IsTouchingLeft(sprite)) || (this.Velocity.X < 0 & this.IsTouchingRight(sprite))) this.Velocity.X = 0;
                 if (this.Velocity.Y > 0 && this.IsTouchingTop(sprite)) this.Velocity.Y = -7;
                 if (this.Velocity.Y < 0 & this.IsTouchingBottom(sprite)) this.Velocity.Y = 7;
-                    
+
             }
             SetAnimations();
             _animationManager.Update(gameTime);

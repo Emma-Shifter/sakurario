@@ -1,32 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D9;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-
 
 namespace sakurario.Controls
 {
     public class Health : Component
     {
-        private Texture2D _texture;
+        private readonly Texture2D _texture;
         public Vector2 Position;
         public int width = 216;
         public int height = 80;
-        public Rectangle Rectangle
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, width, height);
-            }
-        }
+        public Rectangle Rectangle => new((int)Position.X, (int)Position.Y, width, height);
         public Health(Texture2D texture)
         {
             _texture = texture;

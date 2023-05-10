@@ -39,12 +39,6 @@ namespace sakurario.States
             else if (_check == 3) _game.ChangeState(new Level3(_game, _graphicsDevice, _content));
             else if (_check == 4) _game.ChangeState(new Level4(_game, _graphicsDevice, _content));
         }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
-            
-        }
-
         public override void Update(GameTime gameTime)
         {
             foreach (var component in _components)

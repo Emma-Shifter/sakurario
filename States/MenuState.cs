@@ -71,14 +71,7 @@ namespace sakurario.States
             _game.ChangeState(new Gamerules(_game, _graphicsDevice, _content));
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new Level4(_game, _graphicsDevice, _content));
-        }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
-        }
+        private void StartButton_Click(object sender, EventArgs e) => _game.ChangeState(new Level1(_game, _graphicsDevice, _content));
 
         public override void Update(GameTime gameTime)
         {

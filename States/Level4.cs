@@ -108,11 +108,6 @@ namespace sakurario.States
             spriteBatch.End();
         }
 
-        public override void PostUpdate(GameTime gameTime)
-        {
-            
-        }
-
         public override void Update(GameTime gameTime)
         {
             if (_mushrooms.Count == 0) _game.ChangeState(new Victory(_game, _graphicsDevice, _content));
@@ -153,12 +148,6 @@ namespace sakurario.States
             }
             if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 4));
             player.Update(gameTime, player, _platforms);
-        }
-        protected bool Collide(Sprite firstObj, Sprite secondObj)
-        {
-            Rectangle firstObjRect = new Rectangle((int)firstObj.Position.X, (int)firstObj.Position.Y, firstObj.Size.X, firstObj.Size.Y);
-            Rectangle secondObjRect = new Rectangle((int)secondObj.Position.X, (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
-            return firstObjRect.Intersects(secondObjRect);
         }
     }
 }

@@ -4,27 +4,26 @@ using Microsoft.Xna.Framework.Graphics;
 using sakurario.Controls;
 using System;
 using System.Collections.Generic;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace sakurario.States
 {
     public class Gamerules : State
     {
-        private List<Component> _components;
-        Texture2D background;
-        Texture2D mainCharacterStep;
-        Texture2D mainCharacterJump;
+        readonly private List<Component> _components;
+        readonly Texture2D background;
+        readonly Texture2D mainCharacterStep;
+        readonly Texture2D mainCharacterJump;
         Point stepCurrentFrame = new(0, 0);
         Point stepspriteSize = new(4, 1);
         Point jumpCurrentFrame = new(0, 0);
         Point jumpspriteSize = new(4, 1);
         int stepcurrentTime = 0;
         int jumpcurrentTime = 0;
-        int period = 200;
+        readonly int period = 200;
         Vector2 stepPosition = new(1400, 400);
         Vector2 jumpPosition = new(300, 450);
 
-        public Gamerules(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) 
+        public Gamerules(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content, 0)
         {
             background = _content.Load<Texture2D>("gamerules");
@@ -48,12 +47,6 @@ namespace sakurario.States
                     90, 177), Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
             spriteBatch.End();
         }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
-            
-        }
-
         public override void Update(GameTime gameTime)
         {
             stepcurrentTime += gameTime.ElapsedGameTime.Milliseconds;

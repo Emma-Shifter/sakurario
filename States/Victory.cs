@@ -9,9 +9,9 @@ namespace sakurario.States
 {
     public class Victory : State
     {
-        private List<Component> _components;
-        Texture2D background;
-        public Victory(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) 
+        private readonly List<Component> _components;
+        readonly Texture2D background;
+        public Victory(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content, 0)
         {
             background = _content.Load<Texture2D>("victory");
@@ -28,10 +28,6 @@ namespace sakurario.States
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
             spriteBatch.End();
-        }
-
-        public override void PostUpdate(GameTime gameTime)
-        {
         }
 
         public override void Update(GameTime gameTime)
