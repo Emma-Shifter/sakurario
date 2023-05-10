@@ -115,7 +115,7 @@ namespace sakurario.States
 
         public override void Update(GameTime gameTime)
         {
-            if (_mushrooms.Count == 0) _game.ChangeState(new Level4(_game, _graphicsDevice, _content));
+            if (_mushrooms.Count == 0) _game.ChangeState(new Victory(_game, _graphicsDevice, _content));
             foreach (var item in _mushrooms)
             {
                 item.Update(gameTime, player, item);
@@ -127,10 +127,7 @@ namespace sakurario.States
             }
             foreach (var item in _platforms)
             {
-                //if (Collide(item, player))
-                //{
-                //   player.Velocity.Y -= 7;
-                //}
+                if (Collide(item, player)) player.Velocity.Y -= 7;
                 foreach (var snake in _smallSnakes)
                 {
                     snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
