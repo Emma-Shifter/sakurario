@@ -11,7 +11,7 @@ namespace sakurario.States
 {
     public class Level : State
     {
-        new readonly int _level;
+        readonly int _level;
         protected Texture2D platformTexture;
         protected Texture2D health_form;
         protected Texture2D healthTexture;
@@ -61,7 +61,7 @@ namespace sakurario.States
             {
                 isPlayer = true,
                 Size = new Point(90, 177),
-                Position = new Vector2(100, 700),
+                Position = new Vector2(100, 600),
                 Input = new Input()
                 {
                     Right = Keys.D,
@@ -126,7 +126,7 @@ namespace sakurario.States
                     snake.Update(gameTime, snake, _platforms[0], _platforms[^1]);
                     if (Collide(snake, player))
                     {
-                        _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+                        _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, _level));
                     }
                 }
             }
@@ -135,7 +135,7 @@ namespace sakurario.States
                 health_index--;
                 health.Update(gameTime);
             }
-            if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));
+            if (player.Position.Y > 1050 || health_index <= 0) _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, _level));
             player.Update(gameTime, player, _platforms);
         }
     }
