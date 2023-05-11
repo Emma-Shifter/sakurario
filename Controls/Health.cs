@@ -7,9 +7,9 @@ namespace sakurario.Controls
     {
         private readonly Texture2D _texture;
         public Vector2 Position;
-        public int width = 216;
+        public double width = 216;
         public int height = 80;
-        public Rectangle Rectangle => new((int)Position.X, (int)Position.Y, width, height);
+        public Rectangle Rectangle => new((int)Position.X, (int)Position.Y, (int)width, height);
         public Health(Texture2D texture)
         {
             _texture = texture;
@@ -22,7 +22,7 @@ namespace sakurario.Controls
 
         public override void Update(GameTime gameTime)
         {
-            width--;
+            width = width - 0.2;
         }
     }
 }

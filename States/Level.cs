@@ -12,14 +12,13 @@ namespace sakurario.States
     public class Level : State
     {
         new readonly int _level;
-        protected Texture2D background;
         protected Texture2D platformTexture;
         protected Texture2D health_form;
         protected Texture2D healthTexture;
         protected Health health;
         protected Sprite player;
         protected float health_counter = 40f;
-        protected float health_index = 216;
+        protected float health_index = 900;
         protected float _TotalSeconds = 0;
         protected bool isInjured = false;
         protected Dictionary<string, Animation> mushroomAnimations;
@@ -62,7 +61,7 @@ namespace sakurario.States
             {
                 isPlayer = true,
                 Size = new Point(90, 177),
-                Position = new Vector2(100, 100),
+                Position = new Vector2(100, 700),
                 Input = new Input()
                 {
                     Right = Keys.D,
@@ -109,7 +108,10 @@ namespace sakurario.States
             }
             foreach (var item in _platforms)
             {
-                if (Collide(item, player)) player.Velocity.Y -= 7;
+                if (Collide(item, player))
+                {
+                    player.Velocity.Y -= 7;
+                }
                 foreach (var snake in _smallSnakes)
                 {
                     snake.Update(gameTime, snake, _platforms[0], _platforms[^1]);
