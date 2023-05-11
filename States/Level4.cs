@@ -1,21 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using sakurario.Controls;
-using sakurario.Models;
-using System.Collections.Generic;
 using Sprite = sakurario.Sprites.Sprite;
 
 namespace sakurario.States
 {
     public class Level4 : Level
     {
-        public Level4(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) 
+        public Level4(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content, 4)
         {
             platformTexture = _content.Load<Texture2D>("platform_pink");
-          
+
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(70, 900), Size = new Point(240, 72), });
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(320, 900), Size = new Point(240, 72), });
             _platforms.Add(new Sprite(platformTexture) { Position = new Vector2(600, 700), Size = new Point(240, 72), });

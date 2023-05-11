@@ -10,10 +10,8 @@ namespace sakurario.States
 {
     public class Gameover : State
     {
-        private List<Component> _components;
-        Texture2D background;
-        private int _check;
-        public Gameover(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level) 
+        private readonly int _check;
+        public Gameover(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level)
             : base(game, graphicsDevice, content, -1)
         {
             _check = level;
@@ -32,7 +30,7 @@ namespace sakurario.States
                 component.Draw(gameTime, spriteBatch);
             spriteBatch.End();
         }
-        private void StartButton_Click(object sender, EventArgs e)
+        public override void StartButton_Click(object sender, EventArgs e)
         {
             if (_check == 1) _game.ChangeState(new Level1(_game, _graphicsDevice, _content));
             else if (_check == 2) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));

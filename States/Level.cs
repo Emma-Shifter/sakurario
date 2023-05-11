@@ -5,17 +5,13 @@ using Microsoft.Xna.Framework.Input;
 using sakurario.Controls;
 using sakurario.Models;
 using sakurario.Sprites;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace sakurario.States
 {
     public class Level : State
     {
-        new int _level;
+        new readonly int _level;
         protected Texture2D background;
         protected Texture2D platformTexture;
         protected Texture2D health_form;
@@ -34,7 +30,7 @@ namespace sakurario.States
         protected readonly List<Sprite> _smallSnakes = new();
         protected readonly List<Sprite> _bigSnakes = new();
 
-        public Level(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level) 
+        public Level(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level)
             : base(game, graphicsDevice, content, level)
         {
             _level = level;
@@ -116,7 +112,7 @@ namespace sakurario.States
                 if (Collide(item, player)) player.Velocity.Y -= 7;
                 foreach (var snake in _smallSnakes)
                 {
-                    snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
+                    snake.Update(gameTime, snake, _platforms[0], _platforms[^1]);
                     if (Collide(snake, player))
                     {
                         isInjured = true;
@@ -125,7 +121,7 @@ namespace sakurario.States
                 }
                 foreach (var snake in _bigSnakes)
                 {
-                    snake.Update(gameTime, snake, _platforms[0], _platforms[_platforms.Count - 1]);
+                    snake.Update(gameTime, snake, _platforms[0], _platforms[^1]);
                     if (Collide(snake, player))
                     {
                         _game.ChangeState(new Gameover(_game, _graphicsDevice, _content, 2));

@@ -2,15 +2,12 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using sakurario.Controls;
-using System;
 using System.Collections.Generic;
 
 namespace sakurario.States
 {
     public class Victory : State
     {
-        private readonly List<Component> _components;
-        readonly Texture2D background;
         public Victory(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content, 0)
         {
@@ -34,11 +31,6 @@ namespace sakurario.States
         {
             foreach (var component in _components)
                 component.Update(gameTime);
-        }
-
-        private void QuitButton_Click(object sender, EventArgs e)
-        {
-            _game.Exit();
         }
     }
 }

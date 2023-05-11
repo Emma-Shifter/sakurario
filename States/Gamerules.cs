@@ -9,8 +9,6 @@ namespace sakurario.States
 {
     public class Gamerules : State
     {
-        readonly private List<Component> _components;
-        readonly Texture2D background;
         readonly Texture2D mainCharacterStep;
         readonly Texture2D mainCharacterJump;
         Point stepCurrentFrame = new(0, 0);
@@ -55,32 +53,19 @@ namespace sakurario.States
             {
                 jumpcurrentTime -= period;
                 ++jumpCurrentFrame.X;
-                if (jumpCurrentFrame.X >= jumpspriteSize.X)
-                {
-                    jumpCurrentFrame.X = 0;
-                }
-
-                if (jumpCurrentFrame.X == 1)
-                {
-                    jumpPosition.Y = 350;
-                }
+                if (jumpCurrentFrame.X >= jumpspriteSize.X) jumpCurrentFrame.X = 0;
+                if (jumpCurrentFrame.X == 1) jumpPosition.Y = 350;
                 else jumpPosition.Y = 450;
             }
             if (stepcurrentTime > period)
             {
                 stepcurrentTime -= period;
                 ++stepCurrentFrame.X;
-                if (stepCurrentFrame.X >= stepspriteSize.X)
-                {
-                    stepCurrentFrame.X = 0;
-                }
+                if (stepCurrentFrame.X >= stepspriteSize.X) stepCurrentFrame.X = 0;
             }
             foreach (var component in _components)
                 component.Update(gameTime);
         }
-        private void QuitButton_Click(object sender, EventArgs e)
-        {
-            _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
-        }
+        public override void QuitButton_Click(object sender, EventArgs e) => _game.ChangeState(new MenuState(_game, _graphicsDevice, _content));
     }
 }

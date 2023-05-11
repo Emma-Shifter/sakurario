@@ -2,18 +2,20 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using sakurario.Sprites;
+using System;
+using System.Collections.Generic;
 
 namespace sakurario.States
 {
     public abstract class State
     {
         #region Fields
-
         protected ContentManager _content;
         protected GraphicsDevice _graphicsDevice;
         protected Game1 _game;
         protected int _level;
-
+        protected List<Component> _components;
+        protected Texture2D background;
         #endregion
 
         #region Methods
@@ -27,7 +29,6 @@ namespace sakurario.States
             _content = content;
             _level = level;
         }
-
         public abstract void Update(GameTime gameTime);
         protected static bool Collide(Sprite firstObj, Sprite secondObj)
         {
@@ -37,6 +38,9 @@ namespace sakurario.States
                 (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
             return firstObjRect.Intersects(secondObjRect);
         }
+        protected void RulesButton_Click(object sender, EventArgs e) => _game.ChangeState(new Gamerules(_game, _graphicsDevice, _content));
+        public virtual void StartButton_Click(object sender, EventArgs e) => _game.ChangeState(new Level1(_game, _graphicsDevice, _content));
+        public virtual void QuitButton_Click(object sender, EventArgs e) => _game.Exit();
         #endregion
     }
 }

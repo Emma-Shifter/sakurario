@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using sakurario.Controls;
-using sakurario.Models;
-using System.Collections.Generic;
 using Sprite = sakurario.Sprites.Sprite;
 
 namespace sakurario.States
