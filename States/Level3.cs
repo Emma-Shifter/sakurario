@@ -25,8 +25,8 @@ namespace sakurario.States
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1200, 635), Size = new Point(70, 70), });
             _mushrooms.Add(new Sprite(mushroomAnimations) { Position = new Vector2(1600, 835), Size = new Point(70, 70), });
 
-            _smallSnakes.Add(new Sprite(SMAnimations) { isSnake = true, Position = new Vector2(70, 835), Size = new Point(90, 177), });
-            _bigSnakes.Add(new Sprite(SBAnimations) { isSnake = true, Position = new Vector2(400, 810), Size = new Point(90, 177), });
+            _smallSnakes.Add(new Sprite(SMAnimations) { isSnake = true, Position = new Vector2(500, 835), Size = new Point(90, 177), });
+            _bigSnakes.Add(new Sprite(SBAnimations) { isSnake = true, Position = new Vector2(800, 810), Size = new Point(90, 177), });
         }
     }
 }
