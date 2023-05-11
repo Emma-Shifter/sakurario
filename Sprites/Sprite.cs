@@ -64,7 +64,6 @@ namespace sakurario.Sprites
             else if (_animationManager != null) _animationManager.Draw(spriteBatch);
             else throw new Exception("This ain't right..!");
         }
-
         public virtual void Crawl(GameTime gameTime, Sprite obj, Sprite startPlatform, Sprite endPlatform)
         {
             if (ToRight == true && obj.Position.X < endPlatform.Position.X)
@@ -79,20 +78,19 @@ namespace sakurario.Sprites
                 if (obj.Position.X < startPlatform.Position.X) ToRight = true;
             }
         }
-
         public virtual void Move(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Input.Left))
             {
                 Speed = 2f;
-                Velocity.X = -Speed;
+                if (Position.X > 0) Velocity.X = -Speed;
                 isJump = true;
             }
 
             if (Keyboard.GetState().IsKeyDown(Input.Right))
             {
                 Speed = 2f;
-                Velocity.X = Speed;
+                if (Position.X < 1830) Velocity.X = Speed;
                 isJump = true;
             }
 
@@ -102,8 +100,12 @@ namespace sakurario.Sprites
                 if (isJump && seconds > _TotalSeconds)
                 {
                     _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Velocity.Y = (float)(-Speed * (0.8));
-                    Velocity.X = (float)(Speed / 2);
+                    if (Position.X < 1830 && Position.Y > 0)
+                    {
+                        Velocity.Y = (float)(-Speed * (0.8));
+                        Velocity.X = (float)(Speed / 2);
+                    } 
+                    
                 }
                 else
                 {
@@ -117,8 +119,11 @@ namespace sakurario.Sprites
                 if (isJump && seconds > _TotalSeconds)
                 {
                     _TotalSeconds += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    Velocity.Y = (float)(-Speed * (0.8));
-                    Velocity.X = -Speed / 2;
+                    if (Position.X > 0 && Position.Y > 0)
+                    {
+                        Velocity.Y = (float)(-Speed * (0.8));
+                        Velocity.X = -Speed / 2;
+                    }
                 }
                 else
                 {
@@ -127,7 +132,6 @@ namespace sakurario.Sprites
                 }
             }
         }
-
         protected virtual void SetAnimations()
         {
             if (_animations.ContainsKey("JumpMushroom")) _animationManager.Play(_animations["JumpMushroom"]);
