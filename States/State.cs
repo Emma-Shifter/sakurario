@@ -21,7 +21,6 @@ namespace sakurario.States
         #region Methods
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
-
         public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level)
         {
             _game = game;
@@ -39,7 +38,7 @@ namespace sakurario.States
             return firstObjRect.Intersects(secondObjRect);
         }
         protected void RulesButton_Click(object sender, EventArgs e) => _game.ChangeState(new Gamerules(_game, _graphicsDevice, _content));
-        public virtual void StartButton_Click(object sender, EventArgs e) => _game.ChangeState(new Level4(_game, _graphicsDevice, _content));
+        public virtual void StartButton_Click(object sender, EventArgs e) => _game.ChangeState(new Level1(_game, _graphicsDevice, _content));
         public virtual void QuitButton_Click(object sender, EventArgs e) => _game.Exit();
         #endregion
     }

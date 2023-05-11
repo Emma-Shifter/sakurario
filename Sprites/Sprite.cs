@@ -38,7 +38,7 @@ namespace sakurario.Sprites
             }
         }
         public float Speed = 2f;
-        public float SnakeSpeed = 0.8f;
+        public float SnakeSpeed = 0.5f;
         public Vector2 Velocity;
         public bool isJump = false;
         public bool isFall = true;
