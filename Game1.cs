@@ -7,7 +7,7 @@ namespace sakurario
 {
     public class Game1 : Game
     {
-        readonly GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private State _currentState;
         private State _nextState;
@@ -39,6 +39,7 @@ namespace sakurario
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
+            base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)

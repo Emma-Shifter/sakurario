@@ -15,8 +15,8 @@ namespace sakurario.States
         protected Texture2D platformTexture;
         protected Texture2D health_form;
         protected Texture2D healthTexture;
-        protected Health health;
-        protected Sprite player;
+        public Health health;
+        public Sprite player;
         protected float health_counter = 40f;
         protected float health_index = 900;
         protected float _TotalSeconds = 0;
@@ -24,10 +24,10 @@ namespace sakurario.States
         protected Dictionary<string, Animation> mushroomAnimations;
         protected Dictionary<string, Animation> SMAnimations;
         protected Dictionary<string, Animation> SBAnimations;
-        protected readonly List<Sprite> _platforms = new();
-        protected readonly List<Sprite> _mushrooms = new();
-        protected readonly List<Sprite> _smallSnakes = new();
-        protected readonly List<Sprite> _bigSnakes = new();
+        public List<Sprite> _platforms = new();
+        public List<Sprite> _mushrooms = new();
+        public List<Sprite> _smallSnakes = new();
+        public List<Sprite> _bigSnakes = new();
 
         public Level(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level)
             : base(game, graphicsDevice, content, level)
