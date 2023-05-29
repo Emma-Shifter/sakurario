@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using sakurario.Sprites;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace sakurario.States
         protected int Level;
         protected List<Component> _components;
         protected Texture2D background;
+        SoundEffect SoundForButtons;
         #endregion
 
         #region Methods
@@ -27,6 +29,7 @@ namespace sakurario.States
             _graphicsDevice = graphicsDevice;
             _content = content;
             Level = level;
+            SoundForButtons = _content.Load<SoundEffect>("Sounds/for_buttons");
         }
         public abstract void Update(GameTime gameTime);
         protected static bool Collide(Sprite firstObj, Sprite secondObj)
@@ -37,9 +40,22 @@ namespace sakurario.States
                 (int)secondObj.Position.Y, secondObj.Size.X, secondObj.Size.Y);
             return firstObjRect.Intersects(secondObjRect);
         }
-        protected void RulesButton_Click(object sender, EventArgs e) => _game.ChangeState(new Gamerules(_game, _graphicsDevice, _content));
-        public virtual void StartButton_Click(object sender, EventArgs e) => _game.ChangeState(new Level1(_game, _graphicsDevice, _content));
-        public virtual void QuitButton_Click(object sender, EventArgs e) => _game.Exit();
+        protected void RulesButton_Click(object sender, EventArgs e)
+        {
+            SoundForButtons.Play();
+            _game.ChangeState(new Gamerules(_game, _graphicsDevice, _content));
+        }
+        public virtual void StartButton_Click(object sender, EventArgs e)
+        {
+            SoundForButtons.Play();
+            _game.ChangeState(new Level1(_game, _graphicsDevice, _content));
+        } 
+        public virtual void QuitButton_Click(object sender, EventArgs e)
+        {
+            SoundForButtons.Play();
+            _game.Exit();
+        }
+        
         #endregion
     }
 }

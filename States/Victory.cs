@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using sakurario.Controls;
 using System.Collections.Generic;
 
@@ -8,11 +9,14 @@ namespace sakurario.States
 {
     public class Victory : State
     {
+        SoundEffect SoundForWin;
         public Victory(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
             : base(game, graphicsDevice, content, 0)
         {
             background = _content.Load<Texture2D>("victory");
             var quitButtonTexture = _content.Load<Texture2D>("Controls/quit_button");
+            SoundForWin = _content.Load<SoundEffect>("Sounds/for_win");
+            SoundForWin.Play();
             var quitButton = new Button(quitButtonTexture) { Position = new Vector2(730, 600), };
             quitButton.Click += QuitButton_Click;
             _components = new List<Component>() { quitButton, };

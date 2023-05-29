@@ -320,6 +320,36 @@
 /processorParam:TextureFormat=Color
 /build:Snakes/smallsnakestepright.png;Snakes/smallsnakestepright
 
+#begin Sounds/bg.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/bg.mp3;Sounds/bg
+
+#begin Sounds/for_buttons.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/for_buttons.mp3;Sounds/for_buttons
+
+#begin Sounds/for_mushrooms.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/for_mushrooms.mp3;Sounds/for_mushrooms
+
+#begin Sounds/for_win.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/for_win.mp3;Sounds/for_win
+
+#begin Sounds/gameover.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/gameover.mp3;Sounds/gameover
+
 #begin victory.png
 /importer:TextureImporter
 /processor:TextureProcessor

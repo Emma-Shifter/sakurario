@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -28,6 +29,9 @@ namespace sakurario.States
         public List<Sprite> _mushrooms = new();
         public List<Sprite> _smallSnakes = new();
         public List<Sprite> _bigSnakes = new();
+        SoundEffect SoundForMushrooms;
+        SoundEffect SoundForBG;
+        SoundEffectInstance soundEffectInstanceBG;
 
         public Level(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level)
             : base(game, graphicsDevice, content, level)
@@ -53,6 +57,11 @@ namespace sakurario.States
             background = _content.Load<Texture2D>("platform_bg");
             health_form = _content.Load<Texture2D>("health_form");
             healthTexture = _content.Load<Texture2D>("health");
+            SoundForMushrooms = _content.Load<SoundEffect>("Sounds/for_mushrooms");
+            SoundForBG = _content.Load<SoundEffect>("Sounds/bg");
+            soundEffectInstanceBG = SoundForBG.CreateInstance();
+            soundEffectInstanceBG.IsLooped = true;
+            soundEffectInstanceBG.Play();
             health = new Health(healthTexture)
             {
                 Position = new Vector2(112, 50),
@@ -86,9 +95,9 @@ namespace sakurario.States
             spriteBatch.Draw(health_form, new Rectangle(106, 50, 228, 80), Color.White);
             spriteBatch.End();
         }
-
         public void CheckVictory()
         {
+            soundEffectInstanceBG.Stop();
             if (_level == 1) _game.ChangeState(new Level2(_game, _graphicsDevice, _content));
             else if (_level == 2) _game.ChangeState(new Level3(_game, _graphicsDevice, _content));
             else if (_level == 3) _game.ChangeState(new Level4(_game, _graphicsDevice, _content));
@@ -102,6 +111,7 @@ namespace sakurario.States
                 item.Update(gameTime, player, item);
                 if (Collide(item, player))
                 {
+                    SoundForMushrooms.Play();
                     _mushrooms.Remove(item);
                     break;
                 }

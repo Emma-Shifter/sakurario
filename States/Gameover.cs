@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using sakurario.Controls;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace sakurario.States
 {
     public class Gameover : State
     {
+        SoundEffect SoundForGameover;
         private readonly int _check;
         public Gameover(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, int level)
             : base(game, graphicsDevice, content, -1)
@@ -17,6 +19,8 @@ namespace sakurario.States
             _check = level;
             background = _content.Load<Texture2D>("gameover");
             var startButtonTexture = _content.Load<Texture2D>("Controls/start_button");
+            SoundForGameover = _content.Load<SoundEffect>("Sounds/gameover");
+            SoundForGameover.Play();
             var startButton = new Button(startButtonTexture) { Position = new Vector2(730, 600), };
             startButton.Click += StartButton_Click;
             _components = new List<Component>() { startButton, };
